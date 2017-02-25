@@ -1,11 +1,11 @@
 /*
 *画像データ保存用ヘッダー
 * 最終更新日: 2015.11.7
-*8bit用:  static const prog_uint8_t imgname[] PROGMEM ={};
+*8bit用:  static const uint8_t imgname[] PROGMEM ={};
 *
-*16bit用:  static const prog_uint16_t imgname[] PROGMEM ={};
+*16bit用:  static const uint16_t imgname[] PROGMEM ={};
 *
-*32bit用:  static const prog_uint32_t unsigned long imgname[] PROGMEM = {};
+*32bit用:  static const uint32_t unsigned long imgname[] PROGMEM = {};
 */
 static const uint32_t unsigned long miku[] PROGMEM =
 {
