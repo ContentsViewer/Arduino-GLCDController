@@ -34,7 +34,6 @@ void setup() {
   Serial.begin(19200);
   //グラフィックディスプレイを使う前に必ずする
   glcdCtrl.Begin(param);
-  Serial.println(param.Clone().pinRS);
   randomSeed(analogRead(4));
   n = 0;
   m = 0;
@@ -42,13 +41,13 @@ void setup() {
 }
 
 void loop() {
-  /*
+  
   glcdCtrl.colorScr = 1;
   glcdCtrl.PosScr(0, 0);
   glcdCtrl.PutCharScr('\r');
   glcdCtrl.DrawScr();
-  */
-  /*
+  
+  
   glcdCtrl.colorScr = 1;  //色を黒に指定
   glcdCtrl.PosScr(0, 0); //描画ポジションを(0,0)に指定
   glcdCtrl.CelPutScr(miku);  //画像ファイル「miku」 *1 をScr *2 に描画
@@ -64,11 +63,11 @@ void loop() {
   glcdCtrl.DrawScr();  //Scr画面をグラフィック液晶に描画 *3; mikuと文字が消去された
 
   delay(1000);
-*/
-  /*
+
+  
   //////////////////////////////////////////////////////
   glcdCtrl.colorScr = 0;
-  glcdCtrl.BoxfScr(0, 0, glcdCtrl.sizeX, glcdCtrl.sizeY);
+  glcdCtrl.BoxfScr(0, 0, glcdCtrl.SizeX(), glcdCtrl.SizeY());
   glcdCtrl.PosScr(0,0);
 
   glcdCtrl.colorScr = 1;
@@ -81,14 +80,14 @@ void loop() {
   
   
   glcdCtrl.colorScr = 0;
-  glcdCtrl.BoxfScr(0, 0, glcdCtrl.sizeX, glcdCtrl.sizeY);
+  glcdCtrl.BoxfScr(0, 0, glcdCtrl.SizeX(), glcdCtrl.SizeY());
   glcdCtrl.DrawScr();
 
   for(c = 0; c < 3000; c++)
   {
     glcdCtrl.colorScr = 1;
-    n = random(0, glcdCtrl.sizeX);
-    m = random(0, glcdCtrl.sizeY);
+    n = random(0, glcdCtrl.SizeX());
+    m = random(0, glcdCtrl.SizeY());
     glcdCtrl.DotScr(n, m);
     glcdCtrl.DotScr(n+1, m);
     glcdCtrl.DotScr(n+2, m);
@@ -110,7 +109,7 @@ void loop() {
   ////////////////////////////////////////////////////
   
   glcdCtrl.colorScr = 0;
-  glcdCtrl.BoxfScr(0, 0, glcdCtrl.sizeX, glcdCtrl.sizeY);
+  glcdCtrl.BoxfScr(0, 0, glcdCtrl.SizeX(), glcdCtrl.SizeY());
   glcdCtrl.DrawScr();
   
   for(c = 0; c < 10; c++)
@@ -136,7 +135,7 @@ void loop() {
 
   ///////////////////////////////////////////////////////////////////////////
   glcdCtrl.colorScr = 0;
-  glcdCtrl.BoxfScr(0, 0, glcdCtrl.sizeX, glcdCtrl.sizeY);
+  glcdCtrl.BoxfScr(0, 0, glcdCtrl.SizeX(), glcdCtrl.SizeY());
   glcdCtrl.DrawScr();
   c = 0;
   for(m = 1; ; m++)
@@ -160,7 +159,7 @@ void loop() {
   for(n = 0; n < 3; n++)
   {
     glcdCtrl.colorScr = n % 2;
-    glcdCtrl.BoxfScr(0, 0, glcdCtrl.sizeX, glcdCtrl.sizeY);
+    glcdCtrl.BoxfScr(0, 0, glcdCtrl.SizeX(), glcdCtrl.SizeY());
     glcdCtrl.DrawScr();
   }
 
@@ -168,7 +167,7 @@ void loop() {
   
   
   glcdCtrl.colorScr = 0;
-  glcdCtrl.BoxfScr(0, 0, glcdCtrl.sizeX, glcdCtrl.sizeY);
+  glcdCtrl.BoxfScr(0, 0, glcdCtrl.SizeX(), glcdCtrl.SizeY());
   glcdCtrl.DrawScr();
 
   for(c = 0; c < 20; c++)
@@ -188,7 +187,7 @@ void loop() {
     glcdCtrl.MesScr("Miku,Miku");
   }
   //////////////////////////////////////////////////////////////////////////
-  */
+  
 }
 
 
