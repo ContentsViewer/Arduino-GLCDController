@@ -561,6 +561,12 @@ class GLCDController
       }
     }
 
+    void BoxwScr(int x0, int y0, int x1, int y1) {
+      LineScr(x0, y0, x1, y0);
+      LineScr(x1, y0, x1, y1);
+      LineScr(x1, y1, x0, y1);
+      LineScr(x0, y1, x0, y0);
+    }
     //
     //画像表示(文字を含む)関数 CelPutScr(imgName)
     //  引数:
