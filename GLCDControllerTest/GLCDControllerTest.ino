@@ -42,101 +42,101 @@ void setup() {
 
 void loop() {
   
-  glcdCtrl.colorScr = 1;
-  glcdCtrl.PosScr(0, 0);
-  glcdCtrl.PutCharScr('\r');
-  glcdCtrl.DrawScr();
+  glcdCtrl.color = 1;
+  glcdCtrl.Pos(0, 0);
+  glcdCtrl.PutChar('\r');
+  glcdCtrl.Draw();
   
   
-  glcdCtrl.colorScr = 1;  //色を黒に指定
-  glcdCtrl.PosScr(0, 0); //描画ポジションを(0,0)に指定
-  glcdCtrl.CelPutScr(miku);  //画像ファイル「miku」 *1 をScr *2 に描画
-  glcdCtrl.MesScr("Miku,Miku");  //文字「Miku,Miku」をScrに描画
-  glcdCtrl.DrawScr();  //Scr画面をグラフィック液晶に描画 *3
+  glcdCtrl.color = 1;  //色を黒に指定
+  glcdCtrl.Pos(0, 0); //描画ポジションを(0,0)に指定
+  glcdCtrl.Celput(miku);  //画像ファイル「miku」 *1 をScr *2 に描画
+  glcdCtrl.Mes("Miku,Miku");  //文字「Miku,Miku」をScrに描画
+  glcdCtrl.Draw();  //Scr画面をグラフィック液晶に描画 *3
 
   delay(2000);
 
-  glcdCtrl.colorScr = 0;  //色を白に指定
-  glcdCtrl.PosScr(0, 0); //描画ポジションを(0,0)に指定
-  glcdCtrl.CelPutScr(miku);  //画像ファイル「miku」 *1 をScr *2 に白で描画; mikuを消去
-  glcdCtrl.MesScr("Miku,Miku");  //文字「Miku,Miku」をScrに白で描画; 文字を消去
-  glcdCtrl.DrawScr();  //Scr画面をグラフィック液晶に描画 *3; mikuと文字が消去された
+  glcdCtrl.color = 0;  //色を白に指定
+  glcdCtrl.Pos(0, 0); //描画ポジションを(0,0)に指定
+  glcdCtrl.Celput(miku);  //画像ファイル「miku」 *1 をScr *2 に白で描画; mikuを消去
+  glcdCtrl.Mes("Miku,Miku");  //文字「Miku,Miku」をScrに白で描画; 文字を消去
+  glcdCtrl.Draw();  //Scr画面をグラフィック液晶に描画 *3; mikuと文字が消去された
 
   delay(1000);
 
   
   //////////////////////////////////////////////////////
-  glcdCtrl.colorScr = 0;
-  glcdCtrl.BoxfScr(0, 0, glcdCtrl.SizeX(), glcdCtrl.SizeY());
-  glcdCtrl.PosScr(0,0);
+  glcdCtrl.color = 0;
+  glcdCtrl.Boxf(0, 0, glcdCtrl.SizeX(), glcdCtrl.SizeY());
+  glcdCtrl.Pos(0,0);
 
-  glcdCtrl.colorScr = 1;
-  glcdCtrl.MesScr("Demo mode");
-  glcdCtrl.PosScr(0,10);
-  glcdCtrl.MesScr("myGLCD libraly ver2");
-  glcdCtrl.DrawScr();
+  glcdCtrl.color = 1;
+  glcdCtrl.Mes("Demo mode");
+  glcdCtrl.Pos(0,10);
+  glcdCtrl.Mes("myGLCD libraly ver2");
+  glcdCtrl.Draw();
   delay(3000);
   //////////////////////////////////////////////////////
   
   
-  glcdCtrl.colorScr = 0;
-  glcdCtrl.BoxfScr(0, 0, glcdCtrl.SizeX(), glcdCtrl.SizeY());
-  glcdCtrl.DrawScr();
+  glcdCtrl.color = 0;
+  glcdCtrl.Boxf(0, 0, glcdCtrl.SizeX(), glcdCtrl.SizeY());
+  glcdCtrl.Draw();
 
   for(c = 0; c < 3000; c++)
   {
-    glcdCtrl.colorScr = 1;
+    glcdCtrl.color = 1;
     n = random(0, glcdCtrl.SizeX());
     m = random(0, glcdCtrl.SizeY());
-    glcdCtrl.DotScr(n, m);
-    glcdCtrl.DotScr(n+1, m);
-    glcdCtrl.DotScr(n+2, m);
+    glcdCtrl.Dot(n, m);
+    glcdCtrl.Dot(n+1, m);
+    glcdCtrl.Dot(n+2, m);
 
-    glcdCtrl.DotScr(n, m+1);
-    glcdCtrl.DotScr(n+1, m+1);
-    glcdCtrl.DotScr(n+2, m+1);
+    glcdCtrl.Dot(n, m+1);
+    glcdCtrl.Dot(n+1, m+1);
+    glcdCtrl.Dot(n+2, m+1);
 
-    glcdCtrl.DotScr(n, m+2);
-    glcdCtrl.DotScr(n+1, m+2);
-    glcdCtrl.DotScr(n+2, m+2);
+    glcdCtrl.Dot(n, m+2);
+    glcdCtrl.Dot(n+1, m+2);
+    glcdCtrl.Dot(n+2, m+2);
 
 
-    glcdCtrl.PosScr(10, 20);
-    glcdCtrl.colorScr = 0;
-    glcdCtrl.MesScr("DemoMode");
-    glcdCtrl.DrawScr();
+    glcdCtrl.Pos(10, 20);
+    glcdCtrl.color = 0;
+    glcdCtrl.Mes("DemoMode");
+    glcdCtrl.Draw();
   }
   ////////////////////////////////////////////////////
   
-  glcdCtrl.colorScr = 0;
-  glcdCtrl.BoxfScr(0, 0, glcdCtrl.SizeX(), glcdCtrl.SizeY());
-  glcdCtrl.DrawScr();
+  glcdCtrl.color = 0;
+  glcdCtrl.Boxf(0, 0, glcdCtrl.SizeX(), glcdCtrl.SizeY());
+  glcdCtrl.Draw();
   
   for(c = 0; c < 10; c++)
   {
-    glcdCtrl.colorScr = 1;
-    glcdCtrl.PosScr(0,0);
-    glcdCtrl.MesScr("TEST! TEST? TEST%");
-    glcdCtrl.DrawScr();
+    glcdCtrl.color = 1;
+    glcdCtrl.Pos(0,0);
+    glcdCtrl.Mes("TEST! TEST? TEST%");
+    glcdCtrl.Draw();
     delay(500);
 
-    glcdCtrl.colorScr = 0;
-    glcdCtrl.BoxfScr(0,0,127,20);
+    glcdCtrl.color = 0;
+    glcdCtrl.Boxf(0,0,127,20);
 
-    glcdCtrl.colorScr = 1;
-    glcdCtrl.PosScr(0,10);
-    glcdCtrl.MesScr("Can you see that?");
-    glcdCtrl.DrawScr();
+    glcdCtrl.color = 1;
+    glcdCtrl.Pos(0,10);
+    glcdCtrl.Mes("Can you see that?");
+    glcdCtrl.Draw();
     delay(500);
 
-    glcdCtrl.colorScr = 0;
-    glcdCtrl.BoxfScr(0,0,127,20);
+    glcdCtrl.color = 0;
+    glcdCtrl.Boxf(0,0,127,20);
   }
 
   ///////////////////////////////////////////////////////////////////////////
-  glcdCtrl.colorScr = 0;
-  glcdCtrl.BoxfScr(0, 0, glcdCtrl.SizeX(), glcdCtrl.SizeY());
-  glcdCtrl.DrawScr();
+  glcdCtrl.color = 0;
+  glcdCtrl.Boxf(0, 0, glcdCtrl.SizeX(), glcdCtrl.SizeY());
+  glcdCtrl.Draw();
   c = 0;
   for(m = 1; ; m++)
   {
@@ -144,12 +144,12 @@ void loop() {
     if(c > 3) break;
     for(n = 0; n < 127 + 63; n++)
     {
-      glcdCtrl.PosScr(0,0);
-      glcdCtrl.colorScr = (m  + 1)% 2;
-      glcdCtrl.MesScr("Demo Mode");
-      glcdCtrl.colorScr = m % 2;
-      glcdCtrl.LineScr(127 - n, 0, 127 - n + 40, 63);
-      glcdCtrl.DrawScr();
+      glcdCtrl.Pos(0,0);
+      glcdCtrl.color = (m  + 1)% 2;
+      glcdCtrl.Mes("Demo Mode");
+      glcdCtrl.color = m % 2;
+      glcdCtrl.Line(127 - n, 0, 127 - n + 40, 63);
+      glcdCtrl.Draw();
       delay(1);
     }
   }
@@ -158,33 +158,33 @@ void loop() {
   /////////////////////////////////////////////////////////////////////////
   for(n = 0; n < 3; n++)
   {
-    glcdCtrl.colorScr = n % 2;
-    glcdCtrl.BoxfScr(0, 0, glcdCtrl.SizeX(), glcdCtrl.SizeY());
-    glcdCtrl.DrawScr();
+    glcdCtrl.color = n % 2;
+    glcdCtrl.Boxf(0, 0, glcdCtrl.SizeX(), glcdCtrl.SizeY());
+    glcdCtrl.Draw();
   }
 
   /////////////////////////////////////////////////////////////////////////
   
   
-  glcdCtrl.colorScr = 0;
-  glcdCtrl.BoxfScr(0, 0, glcdCtrl.SizeX(), glcdCtrl.SizeY());
-  glcdCtrl.DrawScr();
+  glcdCtrl.color = 0;
+  glcdCtrl.Boxf(0, 0, glcdCtrl.SizeX(), glcdCtrl.SizeY());
+  glcdCtrl.Draw();
 
   for(c = 0; c < 20; c++)
   {
     n = random(0, 100);
     m = random(0, 60);
 
-    glcdCtrl.colorScr = 1;
-    glcdCtrl.PosScr(n,m);
-    glcdCtrl.CelPutScr(miku);
-    glcdCtrl.MesScr("Miku,Miku");
-    glcdCtrl.DrawScr();
+    glcdCtrl.color = 1;
+    glcdCtrl.Pos(n,m);
+    glcdCtrl.Celput(miku);
+    glcdCtrl.Mes("Miku,Miku");
+    glcdCtrl.Draw();
 
-    glcdCtrl.colorScr=0;
-    glcdCtrl.PosScr(n,m);
-    glcdCtrl.CelPutScr(miku);
-    glcdCtrl.MesScr("Miku,Miku");
+    glcdCtrl.color=0;
+    glcdCtrl.Pos(n,m);
+    glcdCtrl.Celput(miku);
+    glcdCtrl.Mes("Miku,Miku");
   }
   //////////////////////////////////////////////////////////////////////////
   

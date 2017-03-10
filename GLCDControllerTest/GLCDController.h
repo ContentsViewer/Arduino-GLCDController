@@ -80,11 +80,6 @@
     4.23.2016:
         スクリプト修正
         文字表示の際Fontデータにない文字は'.'を表示するようにした
-
-   詳しい情報:
-     詳しい情報をほしい方は下記のサイトを参考にしてください.
-       http://kanrec.web.fc2.com/contents/informatics/contents/Arduino/contents/myGLCD/contents/usage_myGLCD/index_usage_myGLCD.html
-         注: リンクが切れていたときはスミマセン.
 */
 #define __PROG_TYPES_COMPAT__  //prog_uint8_t, prog_uint32_tを宣言するのに必要
 #include <avr/pgmspace.h>
@@ -369,29 +364,29 @@ class GLCDController
 
 
     //
-    //変数 byte colorScr
+    //変数 byte color
     //  説明:
     //
     //  値:
     //    0: 何もなし
     //    1: 黒
     //
-    byte colorScr = 0;
+    byte color = 0;
 
     //
-    //関数 void PosScr(int x, int y)
+    //関数 void Pos(int x, int y)
     //  説明:
     //    描画位置を指定します
     //
     //  引数, 変数:
-    //    int x, posScrX: 描画位置のx座標
-    //    int y, posScrY: 描画位置のy座標
+    //    int x, posX: 描画位置のx座標
+    //    int y, posY: 描画位置のy座標
     //
-    int posScrX = 0, posScrY = 0;
-    void PosScr(int x, int y)
+    int posX = 0, posY = 0;
+    void Pos(int x, int y)
     {
-      posScrX = x;
-      posScrY = y;
+      posX = x;
+      posY = y;
     }
 
     //
@@ -400,7 +395,7 @@ class GLCDController
     //    GLCD_scr_buf の内容をGLCDに出力
     //    Scrを液晶ディスプレイに描画します
     //
-    void DrawScr(void)
+    void Draw(void)
     {
       for (byte i = 0; i < 2; i++)
       {
@@ -441,30 +436,31 @@ class GLCDController
     }
 
     //
-    //関数 void DotScr(int x, int y)
+    //関数 void Dot(int x, int y)
     //  説明:
     //    scrBuf の指定された位置にdotを打ちます
     //
     //
-    void DotScr(int x, int y)
+    void Dot(int x, int y)
     {
       //指定されている位置が画面内にあるときだけ実行
-      if (x < param.sizeX && y < param.sizeY && x >= 0 && y >= 00)
+      if (x < param.sizeX && y < param.sizeY && x >= 0 && y >= 0)
       {
         byte temp;
+        int bufIndex = (y / 8) * param.sizeX + x;
 
         //書き込む前のデータを一時保存
-        temp = scrBuf[(y / 8) * param.sizeX + x];
+        temp = scrBuf[bufIndex];
 
         //指定された位置をアドレスに変換, そのアドレスの指定された場所に
         //1を書き込む
-        if (colorScr == 1) scrBuf[(y / 8) * param.sizeX + x] |= (0x01 << (y % 8));
+        if (color == 1) scrBuf[bufIndex] |= (0x01 << (y % 8));
 
         //0を書き込む
-        if (colorScr == 0) scrBuf[(y / 8) * param.sizeX + x] = ~(~(scrBuf[(y / 8) * param.sizeX + x]) | (0x01 << (y % 8)));
+        if (color == 0) scrBuf[bufIndex] = ~(~(scrBuf[bufIndex]) | (0x01 << (y % 8)));
 
         //データが更新されたときフラグを立てる
-        if (temp != scrBuf[(y / 8) * param.sizeX + x])
+        if (temp != scrBuf[bufIndex])
         {
           scrBufUpdated[x] |= (0x01 << (y / 8));
         }
@@ -478,7 +474,7 @@ class GLCDController
     }
 
     //
-    //関数 void LineScr(int x0, int y0, int x1, int y1)
+    //関数 void Line(int x0, int y0, int x1, int y1)
     //  説明:
     //    線を引きます
     //
@@ -488,16 +484,16 @@ class GLCDController
     //    int x1: もう片方の端のx座標
     //    int y1: もう片方の端のy座標
     //
-    void LineScr(int x0, int y0, int x1, int y1)
+    void Line(int x0, int y0, int x1, int y1)
     {
       int steep, t;
       int deltaX, deltaY;
       int x, y;
       int yStep, error;
 
-      /// 差分の大きいほうを求める
+      // 差分の大きいほうを求める
       steep = (Abs(y1 - y0) > Abs(x1 - x0));
-      /// ｘ、ｙの入れ替え
+      // ｘ、ｙの入れ替え
       if (steep)
       {
         t = x0; x0 = y0; y0 = t;
@@ -509,21 +505,21 @@ class GLCDController
         t = y0; y0 = y1; y1 = t;
       }
       deltaX = x1 - x0;  // 傾き計算
-      deltaY = abs(y1 - y0);
+      deltaY = Abs(y1 - y0);
       error = 0;
       y = y0;
-      /// 傾きでステップの正負を切り替え
+      // 傾きでステップの正負を切り替え
       if (y0 < y1) yStep = 1; else yStep = -1;
-      /// 直線を点で描画
+      // 直線を点で描画
       for (x = x0; x <= x1; x++)
       {
         if (steep)
         {
-          DotScr(y, x);
+          Dot(y, x);
         }
         else
         {
-          DotScr(x, y);
+          Dot(x, y);
         }
 
         error += deltaY;
@@ -537,7 +533,7 @@ class GLCDController
     }
 
     //
-    //関数 void BoxfScr(int x0, int y0, int x1, int y1)
+    //関数 void Boxf(int x0, int y0, int x1, int y1)
     //  説明:
     //    矩形を描写します
     //
@@ -547,7 +543,7 @@ class GLCDController
     //    int x1: 矩形の右下点 x座標
     //    int y1: 矩形の右下点 y座標
     //
-    void BoxfScr(int x0, int y0, int x1, int y1)
+    void Boxf(int x0, int y0, int x1, int y1)
     {
       int t;
       if (x1 < x0) //xの入れかえ
@@ -557,25 +553,25 @@ class GLCDController
       for (; x0 <= x1; x0++)
       {
         //直線を描く
-        LineScr(x0, y0, x0, y1);
+        Line(x0, y0, x0, y1);
       }
     }
 
-    void BoxwScr(int x0, int y0, int x1, int y1) {
-      LineScr(x0, y0, x1, y0);
-      LineScr(x1, y0, x1, y1);
-      LineScr(x1, y1, x0, y1);
-      LineScr(x0, y1, x0, y0);
+    void Boxw(int x0, int y0, int x1, int y1) {
+      Line(x0, y0, x1, y0);
+      Line(x1, y0, x1, y1);
+      Line(x1, y1, x0, y1);
+      Line(x0, y1, x0, y0);
     }
     //
-    //画像表示(文字を含む)関数 CelPutScr(imgName)
+    //画像表示(文字を含む)関数 Celput(imgName)
     //  引数:
     //    imgName:
     //      配列,画像データを数値にしたもの
     //      最大x幅: 0~255; 最大y幅: 0~8 or 0~16 or 0~32
     //
     template <typename T, int COL>
-    void CelPutScr(const T(&imagName)[COL])
+    void Celput(const T(&imagName)[COL])
     {
       for (int i = 0; i < COL; i++)
       {
@@ -589,7 +585,7 @@ class GLCDController
           {
             if (0x01 & (pgm_read_byte_near(&imagName[i]) >> j))
             {
-              DotScr(posScrX, posScrY + j);
+              Dot(posX, posY + j);
             }
           }
         }
@@ -600,7 +596,7 @@ class GLCDController
 
             if (0x01 & (pgm_read_word_near(&imagName[i]) >> j))
             {
-              DotScr(posScrX, posScrY + j);
+              Dot(posX, posY + j);
             }
           }
         }
@@ -610,39 +606,39 @@ class GLCDController
           {
             if (0x01 & (pgm_read_dword_near(&imagName[i]) >> j))
             {
-              DotScr(posScrX, posScrY + j);
+              Dot(posX, posY + j);
             }
           }
         }
 
         //次の列へ移動
-        posScrX++;
+        posX++;
       }
     }
 
 
     //一文字表示
-    void PutCharScr(byte b)
+    void PutChar(byte b)
     {
       if (b < 0x20 || b > 0x7f)
       {
-        CelPutScr(font[0x2e - 0x20]);
+        Celput(font[0x2e - 0x20]);
       }
       else
       {
-        CelPutScr(font[b - 0x20]);
+        Celput(font[b - 0x20]);
       }
 
       //文字間隔を1ドット分あける
-      posScrX++;
+      posX++;
     }
 
     //文字列の表示
-    void MesScr(char *c)
+    void Mes(char *c)
     {
       while (*c)
       {
-        PutCharScr(*c++);
+        PutChar(*c++);
       }
     }
 
