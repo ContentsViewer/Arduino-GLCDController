@@ -1,12 +1,12 @@
 /*
-*画像データ保存用ヘッダー
-* 最終更新日: 2015.11.7
-*8bit用:  static const uint8_t imgname[] PROGMEM ={};
-*
-*16bit用:  static const uint16_t imgname[] PROGMEM ={};
-*
-*32bit用:  static const uint32_t unsigned long imgname[] PROGMEM = {};
+  8bit:  static const uint8_t imgname[] PROGMEM ={};
+  16bit:  static const uint16_t imgname[] PROGMEM ={};
+  32bit:  static const uint32_t unsigned long imgname[] PROGMEM = {};
 */
+
+#ifndef _INCLUDE_IMAGES_H_
+#define _INCLUDE_IMAGES_H_
+
 static const uint32_t unsigned long miku[] PROGMEM =
 {
   0x00000007,  // 0
@@ -28,7 +28,7 @@ static const uint32_t unsigned long miku[] PROGMEM =
   0xefeff329,  // 16
   0xebef0809,  // 17
   0xfbfd0831,  // 18
-  0x7f0d08c1,  // 19 
+  0x7f0d08c1,  // 19
   0xeb05f3f9,  // 20
   0xede384a9,  // 21
   0xfff884b3,  // 22
@@ -42,3 +42,7 @@ static const uint32_t unsigned long miku[] PROGMEM =
   0x1fffffe0,  // 30
   0x07ffff00   // 31
 };
+
+
+#endif
+

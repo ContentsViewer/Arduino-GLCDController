@@ -1,8 +1,5 @@
-﻿//***********************************************
-//  最終更新日: 2015/12/4
-// * font.h 5 x 8 ドットフォント                 *
-// * キャラクタコード 0x20 ～ 0x7F               *
-// ***********************************************
+#ifndef _INCLUDE_FONT_H_
+#define _INCLUDE_FONT_H_
 
 static const uint8_t font[][5] PROGMEM = {
   { 0x00, 0x00, 0x00, 0x00, 0x00 },  // 20 (SPC)
@@ -102,4 +99,7 @@ static const uint8_t font[][5] PROGMEM = {
   { 0x08, 0x08, 0x2a, 0x1c, 0x08 },  // 7E (Right arrow)
   { 0x08, 0x1c, 0x2a, 0x08, 0x08 }   // 7F (Left arrow)
 };
-  
+
+#endif
+
+
