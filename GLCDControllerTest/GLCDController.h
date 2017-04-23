@@ -1,3 +1,7 @@
+//DB0~DB7
+//PORTD 2~7 PORTB 0~1
+
+
 #include "Canvas.h"
 #include "Arduino.h"
 
@@ -7,7 +11,6 @@ class GLCDController
     class Param
     {
       public:
-        byte pinsDB[8];
         byte pinRS;
         byte pinRW;
         byte pinE;
@@ -19,10 +22,6 @@ class GLCDController
         byte sizeY;
 
         void CopyFrom(Param &from) {
-          for (int i = 0; i < 8; i++) {
-            this->pinsDB[i] = from.pinsDB[i];
-          }
-
           this->pinRS = from.pinRS;
           this->pinRW = from.pinRW;
           this->pinE = from.pinE;
@@ -31,7 +30,6 @@ class GLCDController
           this->pinRST = from.pinRST;
           this->sizeX = from.sizeX;
           this->sizeY = from.sizeY;
-
         }
     };
 
@@ -42,7 +40,7 @@ class GLCDController
 
   public:
     Canvas canvas;
-    
+
     void Begin(Param &param)
     {
       this->param.CopyFrom(param);
@@ -78,10 +76,9 @@ class GLCDController
     {
       digitalWrite(param.pinRS, rs);  // RS をセット
 
-      for (int i = 0; i < 8; i++)
-      { // データをバスにセット
-        digitalWrite(param.pinsDB[i], (dat >> i) & 0x01);
-      }
+      // データをバスにセット
+      PORTD = (dat << 2) | (PORTD & 0x03);
+      PORTB = (dat >> 6) | (PORTB & 0xfc);
 
       digitalWrite(param.pinE, HIGH); // イネーブルをラッチ
       digitalWrite(param.pinE, LOW);
@@ -109,19 +106,26 @@ class GLCDController
     //すでに表示されているデータを読み取る
     byte ReadData(void)
     {
-      byte ret = 0;  // 戻り値用変数
+      byte ret = 0x00;  // 戻り値用変数
 
-      for (int i = 0; i < 8; i++) pinMode(param.pinsDB[i], INPUT); // DB0～DB7を入力モードに設定
+      //バスピンを入力モードに設定
+      DDRD &= ~B11111100;
+      DDRB &= ~B00000011;
+
       digitalWrite(param.pinRS, HIGH);
       digitalWrite(param.pinRW, HIGH);
       digitalWrite(param.pinE, HIGH);
       digitalWrite(param.pinE, LOW);
       digitalWrite(param.pinE, HIGH);
 
-      for (int i = 0; i < 8; i++) ret += (digitalRead(param.pinsDB[i]) << i);
+      ret = (PIND >> 2) | (PINB << 6);
+
       digitalWrite(param.pinE, LOW);
       digitalWrite(param.pinRW, LOW);
-      for (int i = 0; i < 8; i++) pinMode(param.pinsDB[i], OUTPUT); // DB0～DB7を出力モードに設定
+
+      //バスピンを出力モードに設定
+      DDRD |= B11111100;
+      DDRB |= B00000011;
 
       return (ret);
     }
@@ -136,7 +140,10 @@ class GLCDController
       pinMode(param.pinCS1, OUTPUT);
       pinMode(param.pinCS2, OUTPUT);
       pinMode(param.pinRST, OUTPUT);
-      for (int i = 0; i < 8; i++) pinMode(param.pinsDB[i], OUTPUT);
+
+      //バスピンを出力モードに設定
+      DDRD |= B11111100;
+      DDRB |= B00000011;
 
       // 初期状態として LOW に設定
       digitalWrite(param.pinRS, LOW);

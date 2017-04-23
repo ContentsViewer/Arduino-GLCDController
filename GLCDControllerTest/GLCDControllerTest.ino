@@ -9,17 +9,128 @@
 
 GLCDController glcdCtrl;
 
+unsigned long updateTimePrev = 0;
+int fpsPrev = 0;
+
+int Power(int a, int power);
+void Draw();
+void PrintNumber(int num);
+
+void setup(){
+  Serial.begin(19200);
+  GLCDController::Param param;
+  param.pinRS = 13;
+  param.pinRW = 12;
+  param.pinE = 11;
+  param.pinCS1 = 14;
+  param.pinCS2 = 15;
+  param.pinRST = 10;
+
+  param.sizeX = 128;
+  param.sizeY = 64;
+  
+  //グラフィックディスプレイを使う前に必ずする
+  glcdCtrl.Begin(param);
+}
+
+
+void loop() {
+  for(int i = 0; i < 32; i++){
+    glcdCtrl.canvas.color = true;
+    glcdCtrl.canvas.Line(63 - i * 2, 0, 0, i * 2);
+    Draw();
+    
+    glcdCtrl.canvas.color = true;
+    glcdCtrl.canvas.Line(0, i * 2, i * 2, 63);
+    Draw();
+    
+    glcdCtrl.canvas.color = true;
+    glcdCtrl.canvas.Line(i * 2, 63, 63, 63 - i * 2);
+    Draw();
+    
+    glcdCtrl.canvas.color = true;
+    glcdCtrl.canvas.Line(63, 63 - i * 2, 63 - i * 2, 0);
+    Draw();
+  }
+  
+  
+  for(int i = 0; i < 32; i++){
+    glcdCtrl.canvas.color = false;
+    glcdCtrl.canvas.Line(63 - i * 2, 0, 0, i * 2);
+    Draw();
+    
+    glcdCtrl.canvas.color = false;
+    glcdCtrl.canvas.Line(0, i * 2, i * 2, 63);
+    Draw();
+    
+    glcdCtrl.canvas.color = false;
+    glcdCtrl.canvas.Line(i * 2, 63, 63, 63 - i * 2);
+    Draw();
+    
+    glcdCtrl.canvas.color = false;
+    glcdCtrl.canvas.Line(63, 63 - i * 2, 63 - i * 2, 0);
+    Draw();
+  }
+}
+
+void Draw() {
+  glcdCtrl.canvas.color = true;
+  glcdCtrl.canvas.Pos(64, 0);
+  glcdCtrl.canvas.Mes("GLCD");
+  glcdCtrl.canvas.Pos(70, 8);
+  glcdCtrl.canvas.Mes("Controller");
+  glcdCtrl.canvas.Pos(70, 16);
+  glcdCtrl.canvas.Mes("Test");
+  unsigned long updateTime = millis();
+  
+  glcdCtrl.canvas.color = true;
+  glcdCtrl.canvas.Pos(75, 30);
+  glcdCtrl.canvas.Mes("FPS:");
+  int posX = glcdCtrl.canvas.posX - 15;
+  int posY = glcdCtrl.canvas.posY + 8;
+  
+  glcdCtrl.canvas.color = false;
+  glcdCtrl.canvas.Pos(posX, posY);
+  PrintNumber(fpsPrev);
+  
+  glcdCtrl.canvas.color = true;
+  glcdCtrl.canvas.Pos(posX, posY);
+  int fps = int(1000 / (updateTime - updateTimePrev));
+  PrintNumber(fps);
+  glcdCtrl.Draw();
+
+  updateTimePrev = updateTime;
+  fpsPrev = fps;
+}
+
+void PrintNumber(int num) {
+  int numberOfDigits = 1;
+  int powered = 1;
+  for (numberOfDigits = 0; num / powered != 0; numberOfDigits++, powered *= 10) {
+  }
+
+  powered = Power(10, numberOfDigits - 1);
+  for (int i = 0; i < numberOfDigits; i++, powered /= 10) {
+    int digit = num / powered;
+    num %= powered;
+
+    glcdCtrl.canvas.PutChar(0x30 + digit);
+
+  }
+}
+
+int Power(int a, int power){
+  int powered = 1;
+  for(int i = 0; i < power; i++){
+    powered *= a;
+  }
+  return powered;
+}
+
+/*
 int n, m, c;
 void setup() {
   GLCDController::Param param;
-  param.pinsDB[0] = 10;
-  param.pinsDB[1] = 9;
-  param.pinsDB[2] = 8;
-  param.pinsDB[3] = 7;
-  param.pinsDB[4] = 6;
-  param.pinsDB[5] = 5;
-  param.pinsDB[6] = 4;
-  param.pinsDB[7] = 3;
   param.pinRS = 13;
   param.pinRW = 12;
   param.pinE = 11;
@@ -41,13 +152,7 @@ void setup() {
 }
 
 void loop() {
-  
-  glcdCtrl.canvas.color = 1;
-  glcdCtrl.canvas.Pos(0, 0);
-  glcdCtrl.canvas.PutChar('\r');
-  glcdCtrl.Draw();
-  
-  
+
   glcdCtrl.canvas.color = 1;  //色を黒に指定
   glcdCtrl.canvas.Pos(0, 0); //描画ポジションを(0,0)に指定
   glcdCtrl.canvas.Celput(miku);  //画像ファイル「miku」 *1 をScr *2 に描画
@@ -189,5 +294,5 @@ void loop() {
   //////////////////////////////////////////////////////////////////////////
   
 }
-
+*/
 
